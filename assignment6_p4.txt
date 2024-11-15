@@ -1,0 +1,26 @@
+1 - Analyze the worst-case time complexity of the private member function 
+makeEmpty(BinaryNode* & t) of the binary expression tree. Give the complexity in the form of 
+Big-O. Your analysis must be clearly understandable by others.
+----------------------------------------------------------------------------------
+    Since the function traverses through each node exactly once to delete it, the number
+    of recursive calls is proportional to the number of nodes in the tree. Thus, the worst-case time
+    complexity is O(n).
+
+----------------------------------------------------------------------------------
+2 - Analyze the worst-case time complexity of the function you write to convert 
+a postfix expression into infix expression (if this is done in multiple functions,
+you need to combine their complexity together). Give the complexity in the form of 
+Big-O. Your analysis must be clearly understandable by others.
+----------------------------------------------------------------------------------
+    The function buildFromPostfix() builds the binary expression tree from the postfix expression.
+    It does so by traversing through each token of the postfix expression exactly once; if its an operator,
+    it creates a new node for the operator with the two nodes as its children and pushes them into stack, and 
+    if its an operand, it creates a new node and pushes it onto the stack. Therefore, this takes linear time, 
+    or O(n) where n represents the number of tokens in the postfix expression.
+
+    Once the tree is built, the function printInfixExpression() converts it into Infix notation. This step
+    also traverses through all the nodes in the tree exactly once, thus also taking linear time, or O(n) where n
+    represents the number of nodes in the tree. 
+
+    Therefore, we can conclude that the worst-case time complexity of my algorithm to convert
+    postfix into infix is O(n). 

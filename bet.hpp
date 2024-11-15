@@ -67,16 +67,115 @@ bool BET::buildFromPostfix(const string postfix)   // return true if the new tre
     return true;
 }
 
-/*
-void printInfixExpression() const;    // call the private vesrion of the printInfixExpression function
-void printPostfixExpression() const;    // call the private version of the printPostfixExpression function
-size_t size() const;  // return the number of nodes in the tree
-size_t lead_nodes() const;    // return the numnber of leaf nodes in the tree
-bool empty() const;
-*/
+const BET& BET::operator=(const BET& rhs)   // assignment operator
+{
+    if(this != &rhs){
+        makeEmpty(root);
+        root = clone(rhs.root);
+    }
+    return *this;
+}
+
+void BET::printInfixExpression()    // call the private vesrion of the printInfixExpression function
+{
+    if(root){
+        printInfixExpression(root);
+    }
+    cout<<"\n";
+}
+
+void BET::printPostfixExpression()    // call the private version of the printPostfixExpression function
+{
+    if(root){
+        printPostfixExpression(root);
+    }
+    cout<<"\n";
+}
+
+size_t BET::size() // return the number of nodes in the tree
+{
+    return size(root);
+}
+
+
+size_t BET::leaf_nodes() // return the numnber of leaf nodes in the tree
+{
+    return leaf_nodes(root);
+}
+
+bool BET::empty()
+{
+    return root == nullptr;
+}
 
 //-----------------------------------------------
 // =========== Private Member functions ==========
 //-----------------------------------------------
+
+void BET::printInfixExpression(BinaryNode *n)   // Print to the standard output the corresponding infix expression
+{
+    if(!n){
+        return;
+    }
+    if(n->left && n-> right){
+        cout<<"(";
+    }
+
+    printInfixExpression(n->left);
+    cout<<n->element;
+    printInfixExpression(n->right);
+    
+    if(n->left && n->right){
+        cout<<")";
+    }
+}
+
+void BET::makeEmpty(BinaryNode* &t) // delete all nodes in the subtree pointed to by t
+{
+    if(t){
+        makeEmpty(t->left);
+        makeEmpty(t->right);
+        delete t;
+        t = nullptr;
+    }
+}
+
+BET::BinaryNode* BET::clone(BinaryNode* t) const  // clone all nores in the subtree pointed to by t
+{
+    if(!t){
+        return nullptr;
+    }
+    return new BinaryNode(t->element, clone(t->left), clone(t->right));
+}
+
+void BET::printPostfixExpression(BinaryNode *n) // print to the standard output the corresponsiding postfix expression
+{
+    if(!n){
+        return;
+    }
+
+    printPostfixExpression(n->left);
+    printPostfixExpression(n->right);
+    cout<<n->element<<" ";
+}
+
+size_t BET::size(BinaryNode *t) // return the number of nodes in the subtree pointed to by t
+{
+    if(!t){
+        return 0;
+    }
+    return 1 + size(t->left) + size(t->right);
+}
+
+size_t BET::leaf_nodes(BinaryNode *t)   // return the number of leaf nodes in the subtree pointed to by t
+{
+    if(!t){
+        return 0;
+    }
+    if(!t->left && !t->right){
+        return 1;
+    }
+    return leaf_nodes(t->left) + leaf_nodes(t->right);
+}
 
 #endif
